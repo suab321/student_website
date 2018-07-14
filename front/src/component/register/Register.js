@@ -1,10 +1,40 @@
 import React,{Component} from 'react';
+import axios from 'axios';
 
 class Register extends Component{
 
 	constructor(props){
 		super(props);
+    this.state={
+      name:"",
+      email:"",
+      password:""
+    }
 	}
+
+  emailchange=(event)=>{
+    this.setState({email:event.target.value})
+  }
+  namechange=(event)=>{
+    this.setState({name:event.target.value})
+  }
+  passwordchange=(event)=>{
+    this.setState({password:event.target.value})
+  }
+  submit=()=>{
+    console.log(this.state)
+    axios.post("http://localhost:3000/register",{name:this.state.name,email:this.state.email,password:this.state.password})
+    .then(response=>{
+      if(response.status===200){
+        this.props.route('home');
+        this.props.user(response.data.email);
+        this.props.load_user();
+      }
+      else
+        console.log("Try to register with a new EmailId")
+    })
+
+  }
 
 	render(){
 	return(
@@ -28,13 +58,11 @@ class Register extends Component{
     </fieldset>
     <div>
       <input
-      onClick={()=>this.props.route('home')} className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Register"/>
+      onClick={this.submit} className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type="submit" value="Register"/>
       <div className='pa3'><div className='f3'>Have Account</div>
       <p onClick={()=>this.props.route('login')} className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" type='submit'>SIGNIN</p>
       </div>
       </div>
-    <div className="lh-copy mt3">
-    </div>
   </div>
 </main>
 </article>

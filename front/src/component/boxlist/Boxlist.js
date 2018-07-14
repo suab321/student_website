@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from './Box';
 
-const Boxlist=({users,route})=>{
+const Boxlist=({users})=>{
 	const list=users.map((i)=>{
 		return(<Box details={i}/>)
 	})
